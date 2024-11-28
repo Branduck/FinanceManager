@@ -25,11 +25,10 @@ public class Expense extends SaveLoad{
 		
 		ArrayList<Expense> arrL = new ArrayList<Expense>();
 		
-		arrL.add(new Expense("Car", "Toyota", 500));
-		arrL.add(new Expense("Car", "Audi", 650));
-		arrL.add(new Expense("MotorCycle", "FZ16", 120));
+		arrL.add(new Expense("Mobile Phone", "Samsung S23+", 1600));
 		
 		Expense.SaveFile(arrL, filename);
+		
 		
 		
 	}
@@ -39,13 +38,22 @@ public class Expense extends SaveLoad{
 		return type + ", " + note + ", " + amount;
 	}
 
-	@Override
-	public void LoadFile(String filename) {
+	public static Expense toExpense(String expense) {
+
+		String[] expenseItems = expense.split(",");
+		
+		return new Expense(expenseItems[0], expenseItems[1], Double.parseDouble(expenseItems[2]));
+
+	}
+	
+	
+	public void LoadFile(ArrayList<Expense> arraylist, String filename) {
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(filename))){
 			
 			String line;
-			Expense[] e = {};
+			
+			ArrayList<Expense> arrayList = new ArrayList<Expense>();
 			
 			
 			if (!(line = br.readLine()).isEmpty()) {
