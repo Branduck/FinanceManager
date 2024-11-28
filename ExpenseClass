@@ -25,7 +25,9 @@ public class Expense extends SaveLoad{
 		
 		ArrayList<Expense> arrL = new ArrayList<Expense>();
 		
-		arrL.add(new Expense("Mobile Phone", "Samsung S23+", 1600));
+		Expense.LoadFile(arrL, filename);
+		
+		arrL.add(new Expense("Car", "Audi", 75000));
 		
 		Expense.SaveFile(arrL, filename);
 		
@@ -35,7 +37,7 @@ public class Expense extends SaveLoad{
 	
 	@Override
 	public String toString() {
-		return type + ", " + note + ", " + amount;
+		return type + "," + note + "," + amount;
 	}
 
 	public static Expense toExpense(String expense) {
@@ -47,25 +49,22 @@ public class Expense extends SaveLoad{
 	}
 	
 	
-	public void LoadFile(ArrayList<Expense> arraylist, String filename) {
+	public static void LoadFile(ArrayList<Expense> arraylist, String filename) {
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(filename))){
 			
 			String line;
 			
-			ArrayList<Expense> arrayList = new ArrayList<Expense>();
-			
-			
-			if (!(line = br.readLine()).isEmpty()) {
+			while ((line = br.readLine()) != null) {
 				
-				if (line.length() == 3) {
-					
-				}
-				
+				arraylist.add(Expense.toExpense(line));
 			}
 			
+			System.out.println("Successfully loaded.");
+			
+			
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("Failed to load.");
 		}
 		
 	}
