@@ -1,18 +1,23 @@
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-public class Panel extends JPanel{
+public class mainPanel extends JPanel{
 
 
-	Panel(int x, int y, int width, int height, Color color){
+	mainPanel(int x, int y, int width, int height, Color color){
 		this.setBounds(x, y, width, height);
 		this.setBackground(color);
 	}
@@ -21,21 +26,36 @@ public class Panel extends JPanel{
 		
 
 		        JFrame frame = new JFrame();
-		        frame.setSize(500, 500);
+		        frame.setSize(800, 700);
 
 		        // Main panel with BorderLayout
-		        Panel panel = new Panel(0, 0, 500, 500, Color.black);
+		        mainPanel panel = new mainPanel(0, 0, 500, 500, Color.black);
 		        panel.setLayout(new BorderLayout());
-
+		        
+		        
+				JPanel panelOne = new JPanel(); 
+				panelOne.setBackground(Color.decode("#000080"));
+				  
+				JPanel panelTwo = new JPanel(); 
+				panelTwo.setBackground(Color.decode("#000080"));
+				panelTwo.setLayout(null);
+			
+				 
 		        
 		        JPanel panel2 = new JPanel();
-		        panel2.setLayout(null);
-		        panel2.setBackground(Color.black);
+		        CardLayout cardlayout = new CardLayout();
+		        panel2.setLayout(cardlayout);
+		        panel2.setBackground(Color.decode("#000080"));
 		        
+				
+		        
+		        panel2.add(panelOne, "p1");
+		        panel2.add(panelTwo, "p2");
 		        		
 		        JLabel label = new JLabel("Finance Manager", SwingConstants.CENTER);
-		        label.setForeground(Color.WHITE);
-		        label.setBackground(Color.blue);
+		        label.setForeground(Color.black);
+		        label.setBackground(Color.decode("#D3D3D3"));
+		        label.setFont(new Font("Arial", Font.BOLD, 25));
 		        label.setOpaque(true);
 		        label.setPreferredSize(new Dimension(500,50));
 		        
@@ -44,17 +64,49 @@ public class Panel extends JPanel{
 
 		        // Nested panel for buttons with GridLayout to stack them
 		        JPanel buttonPanel = new JPanel();
-		        buttonPanel.setLayout(new GridLayout(2, 1, 10, 10)); // 2 rows, 1 column with spacing
-		        buttonPanel.setBackground(Color.BLACK);
+		        buttonPanel.setLayout(new GridLayout(3, 1, 10, 50)); // 2 rows, 1 column with spacing
+		        buttonPanel.setBackground(Color.decode("#000080"));
 
-		        JButton button1 = new JButton("Hello");
+		        JButton button1 = new JButton("Expenses");
 		        button1.setPreferredSize(new Dimension(150, 150)); // Button size
-		        JButton button2 = new JButton("Ho");
+		        button1.setBackground(Color.decode("#008080"));
+		        button1.setForeground(Color.white);
+		        button1.setFont(new Font("Arial", Font.BOLD, 25));
+		        button1.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cardlayout.show(panel2, "p2");
+						
+					}
+		        	
+		        });
+		        
+		        JButton button2 = new JButton("Account");
 		        button2.setPreferredSize(new Dimension(150, 150));
+		        button2.setBackground(Color.decode("#008080"));
+		        button2.setForeground(Color.white);
+		        button2.setFont(new Font("Arial", Font.BOLD, 25));
+		        button2.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cardlayout.show(panel2, "p1");
+						
+					}
+		        	
+		        });
+		        
+		        JButton button3 = new JButton("Income");
+		        button3.setPreferredSize(new Dimension(150, 150));
+		        button3.setBackground(Color.decode("#008080"));
+		        button3.setForeground(Color.white);
+		        button3.setFont(new Font("Arial", Font.BOLD, 25));
 
 		        // Add buttons to the nested panel
 		        buttonPanel.add(button1);
 		        buttonPanel.add(button2);
+		        buttonPanel.add(button3);
 
 		        // Add the button panel to the WEST of the main panel
 		        panel.add(buttonPanel, BorderLayout.WEST);
