@@ -1,121 +1,171 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
+
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import java.awt.CardLayout;
+import javax.swing.JToolBar;
+import java.awt.Canvas;
 
-public class mainPanel extends JPanel{
+public class mainPanel {
 
+	private JFrame frame;
 
-	mainPanel(int x, int y, int width, int height, Color color){
-		this.setBounds(x, y, width, height);
-		this.setBackground(color);
-	}
-	
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					mainPanel window = new mainPanel();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-		        JFrame frame = new JFrame();
-		        frame.setSize(800, 700);
-
-		        // Main panel with BorderLayout
-		        mainPanel panel = new mainPanel(0, 0, 500, 500, Color.black);
-		        panel.setLayout(new BorderLayout());
-		        
-		        
-				JPanel panelOne = new JPanel(); 
-				panelOne.setBackground(Color.decode("#000080"));
-				  
-				JPanel panelTwo = new JPanel(); 
-				panelTwo.setBackground(Color.decode("#000080"));
-				panelTwo.setLayout(null);
-			
-				 
-		        
-		        JPanel panel2 = new JPanel();
-		        CardLayout cardlayout = new CardLayout();
-		        panel2.setLayout(cardlayout);
-		        panel2.setBackground(Color.decode("#000080"));
-		        
-				
-		        
-		        panel2.add(panelOne, "p1");
-		        panel2.add(panelTwo, "p2");
-		        		
-		        JLabel label = new JLabel("Finance Manager", SwingConstants.CENTER);
-		        label.setForeground(Color.black);
-		        label.setBackground(Color.decode("#D3D3D3"));
-		        label.setFont(new Font("Arial", Font.BOLD, 25));
-		        label.setOpaque(true);
-		        label.setPreferredSize(new Dimension(500,50));
-		        
-		        panel.add(label, BorderLayout.NORTH);
-		        panel.add(panel2, BorderLayout.CENTER);
-
-		        // Nested panel for buttons with GridLayout to stack them
-		        JPanel buttonPanel = new JPanel();
-		        buttonPanel.setLayout(new GridLayout(3, 1, 10, 50)); // 2 rows, 1 column with spacing
-		        buttonPanel.setBackground(Color.decode("#000080"));
-
-		        JButton button1 = new JButton("Expenses");
-		        button1.setPreferredSize(new Dimension(150, 150)); // Button size
-		        button1.setBackground(Color.decode("#008080"));
-		        button1.setForeground(Color.white);
-		        button1.setFont(new Font("Arial", Font.BOLD, 25));
-		        button1.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cardlayout.show(panel2, "p2");
-						
-					}
-		        	
-		        });
-		        
-		        JButton button2 = new JButton("Account");
-		        button2.setPreferredSize(new Dimension(150, 150));
-		        button2.setBackground(Color.decode("#008080"));
-		        button2.setForeground(Color.white);
-		        button2.setFont(new Font("Arial", Font.BOLD, 25));
-		        button2.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cardlayout.show(panel2, "p1");
-						
-					}
-		        	
-		        });
-		        
-		        JButton button3 = new JButton("Income");
-		        button3.setPreferredSize(new Dimension(150, 150));
-		        button3.setBackground(Color.decode("#008080"));
-		        button3.setForeground(Color.white);
-		        button3.setFont(new Font("Arial", Font.BOLD, 25));
-
-		        // Add buttons to the nested panel
-		        buttonPanel.add(button1);
-		        buttonPanel.add(button2);
-		        buttonPanel.add(button3);
-
-		        // Add the button panel to the WEST of the main panel
-		        panel.add(buttonPanel, BorderLayout.WEST);
-
-		        frame.add(panel);
-		        frame.setVisible(true);
-		        frame.setLocationRelativeTo(null);
-		    }
-		}
-
+	ExpensePanel expensePanel;
 	
+	public mainPanel() {
+		initialize();
+	}
 
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+	    frame.setSize(700, 600);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	    JPanel mainPanel = new JPanel();
+	    mainPanel.setBackground(new Color(0, 64, 128));
+	    mainPanel.setLayout(new BorderLayout());
+	    
+	    
+	    
+	    CardLayout topCardLayout = new CardLayout();
+	    
+	    
+	    JPanel homePage = new JPanel();
+	    homePage.setLayout(topCardLayout);
+	    homePage.setBackground(Color.decode("#008080"));
+	    homePage.setPreferredSize(new Dimension(700, 50));
+	    
+	    
+	    JLabel HomeLabel = new JLabel("Home");
+	    HomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    HomeLabel.setForeground(new Color(255, 255, 255));
+	    HomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+	    homePage.add(HomeLabel, "HomeLabel");
+	    
+	    JLabel expenseLabel = new JLabel("Expense");
+	    expenseLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    expenseLabel.setForeground(new Color(255, 255, 255));
+	    expenseLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+	    homePage.add(expenseLabel, "ExpenseLabel");
+
+	    JLabel incomeLabel = new JLabel("Income");
+	    incomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    incomeLabel.setForeground(new Color(255, 255, 255));
+	    incomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+	    homePage.add(incomeLabel, "IncomeLabel");
+	    
+	    JLabel summaryLabel = new JLabel("Summary");
+	    summaryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    summaryLabel.setForeground(new Color(255, 255, 255));
+	    summaryLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+	    homePage.add(summaryLabel, "SummaryLabel");
+	    
+	    
+	    JPanel buttonPanel = new JPanel();
+	    buttonPanel.setPreferredSize(new Dimension(150, 600));
+	    buttonPanel.setLayout(new GridLayout(3, 1, 100, 50));
+
+	    // Add content to the CENTER region to ensure proper layout
+	    CardLayout cardLayout = new CardLayout();
+	    JPanel centerPanel = new JPanel();
+	    centerPanel.setLayout(cardLayout);
+	  
+	    JPanel homePanel = new JPanel();
+	    
+	    centerPanel.add(homePanel, "HomePanel");
+        
+	    //Add expensePanel, incomePanel, summaryPanel to centerPanel
+	    ExpensePanel expensePanel = new ExpensePanel();
+	    centerPanel.add(expensePanel, "ExpensePanel");	    
+	    
+	    frame.getContentPane().add(mainPanel);
+
+	    mainPanel.add(homePage, BorderLayout.NORTH);
+	    mainPanel.add(buttonPanel, BorderLayout.WEST);
+	    
+	    JButton ExpenseButton = new JButton("Expenses");
+	    ExpenseButton.setBackground(new Color(255, 128, 128));
+	    ExpenseButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	    ExpenseButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				topCardLayout.show(homePage, "ExpenseLabel");
+				cardLayout.show(centerPanel, "ExpensePanel");
+				buttonPanel.setBackground(expensePanel.getBackground());
+			}
+	    	
+	    });
+	    buttonPanel.add(ExpenseButton);
+	    
+	    JButton IncomeButton = new JButton("Income");
+	    IncomeButton.setBackground(new Color(255, 128, 128));
+	    IncomeButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	    IncomeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				topCardLayout.show(homePage, "IncomeLabel");
+				
+			}
+	    	
+	    });
+	    buttonPanel.add(IncomeButton);
+	    
+	    JButton SummaryButton = new JButton("Summary");
+	    SummaryButton.setBackground(new Color(255, 128, 128));
+	    SummaryButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+	    SummaryButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				topCardLayout.show(homePage, "SummaryLabel");
+				
+			}
+	    	
+	    });
+	    
+	    buttonPanel.add(SummaryButton);
+	    mainPanel.add(centerPanel, BorderLayout.CENTER);
+	    
+		
+	}
+
+}
